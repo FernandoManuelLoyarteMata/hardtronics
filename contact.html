@@ -25,11 +25,14 @@
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
 		
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-		
-		<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.8.0/dist/email.min.js"></script>
+
+
+
 		<script>
 			(function(){
-				emailjs.init("Aw6mKagG4tihK6aj3"); // Reemplaza YOUR_USER_ID con tu User ID de EmailJS
+				emailjs.init("Aw6mKagG4tihK6aj3"); 
 			})();
 		</script>
 		
@@ -137,12 +140,13 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Email" id="email" required>
+									<input type="text" class="form-control" placeholder="Email" id="email" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required>
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<textarea name="" class="form-control" id="" cols="30" rows="7" placeholder="Mensaje" id="message" required></textarea>
+									<textarea name="" class="form-control" cols="30" rows="7" placeholder="Mensaje" id="message" required></textarea>
+
 								</div>
 							</div>
 							<div class="col-md-12" style="margin-bottom: 2rem;">
@@ -245,50 +249,56 @@
 	<script src="js/main.js"></script>
 
 	<script>
-			document.addEventListener('DOMContentLoaded', function() {
-	document.getElementById('contact-form').addEventListener('submit', function(event) {
-		event.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM completamente cargado y parseado.");
 
-		const name = document.getElementById('name').value;
-		const email = document.getElementById('email').value;
-		const message = document.getElementById('message').value;
-		const recaptchaResponse = grecaptcha.getResponse();
+            document.getElementById('contact-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                console.log("Formulario enviado.");
 
-		 // Expresión regular para validar el correo electrónico
-		 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+                const recaptchaResponse = grecaptcha.getResponse();
 
-		// Verificar si el correo es válido
-		if (!emailRegex.test(email)) {
-			alert('Por favor, ingresa un correo electrónico válido.');
-			return;
-		}
+                // Verificar si el correo es válido
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    console.log("Correo electrónico inválido.");
+                    alert('Por favor, ingresa un correo electrónico válido.');
+                    return;
+                }
 
+                // Verificar si el reCAPTCHA está completado
+                if (!recaptchaResponse) {
+                    console.log("reCAPTCHA no completado.");
+                    alert('Por favor, completa el reCAPTCHA.');
+                    return;
+                }
 
-		if (!recaptchaResponse) {
-		alert('Por favor, completa el reCAPTCHA.');
-		return;
-		}
+                console.log("Todos los campos son válidos, enviando el correo...");
 
-		emailjs.send("service_mmyimgb", "template_7u575af", {
-		from_name: name,
-		from_email: email,
-		message: message,
-		reply_to: email,
-		'g-recaptcha-response': recaptchaResponse
-		})
-		.then(response => {
-		alert("Mensaje enviado exitosamente.");
-		document.getElementById('contact-form').reset();
-		})
-		.catch(error => {
-		alert("Hubo un error al enviar el mensaje.");
-		console.error('Error:', error);
-		});
-	});
-});
-
-	
-		</script>
+                emailjs.send("service_mmyimgb", "template_7u575af", {
+                    from_name: name,
+                    from_email: email,
+                    message: message,
+                    reply_to: email,
+                    'g-recaptcha-response': recaptchaResponse
+                })
+                .then(response => {
+                    console.log("Respuesta de EmailJS:", response);
+                    alert("Mensaje enviado exitosamente.");
+                    document.getElementById('contact-form').reset();
+                    grecaptcha.reset(); // Resetea el reCAPTCHA después del envío
+                })
+                .catch(error => {
+                    console.error('Error al enviar el correo:', error);
+                    alert("Hubo un error al enviar el mensaje.");
+					console.error('Error completo:', error);
+                });
+            });
+        });
+    </script>
 
 	</body>
 </html>
