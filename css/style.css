@@ -1102,6 +1102,25 @@ input[type="text"] {
   transform: rotate(-180deg);
 }
 
+.wapp{
+
+}
+
+.wapp-wrapper{
+ 
+  padding: 4px;
+    position: fixed;
+  bottom: 10%;
+  left: 18%;
+  z-index: 999;
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  scale: 3;
+}
+
 .gototop {
   position: fixed;
   bottom: 20px;

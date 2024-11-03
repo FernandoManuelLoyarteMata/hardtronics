@@ -22,7 +22,18 @@
 		<meta name="twitter:description" content="Contáctanos para más información sobre nuestros servicios de ingeniería electrónica y automatización." />
 		<meta name="twitter:image" content="URL_DE_IMAGEN_COMPARTIBLE_EN_TWITTER">
 		
-		<link rel="icon" href="favicon.ico" type="image/x-icon">	
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+		
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+		<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
+		<script>
+			(function(){
+				emailjs.init("YOUR_USER_ID"); // Reemplaza YOUR_USER_ID con tu User ID de EmailJS
+			})();
+		</script>
+		
+		
+	
 
   	<!-- Facebook and Twitter integration -->
 	<meta property="og:title" content=""/>
@@ -72,7 +83,7 @@
 			<div class="top-menu">
 				<div class="row">
 					<div class="col-xs-2">
-						<div id="fh5co-logo"><a href="index.html">HardTronics</a></div>
+						<div id="fh5co-logo"><a href="index.html"><img src="images/logopng.png" alt="logo"></a></div>
 					</div>
 					<div class="col-xs-10 text-right menu-1">
 						<ul>
@@ -83,6 +94,7 @@
 									<li><a href="automatizaciones.html">Automatizaciones</a></li>
 									<li><a href="altatension.html">Alta tensión</a></li>
 									<li><a href="tecnologialed.html">Tecnología Led</a></li>
+									<li><a href="videovigilancia.html">Videovigilancia</a></li>
 								</ul>
 							</li>
 							<li><a href="clients.html">Clientes</a></li>
@@ -115,28 +127,33 @@
 					</ul>
 				</div>
 				<div class="col-md-7 col-md-push-1 animate-box">
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Nombre">
+					<form id="contact-form">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Nombre" id="name" required>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Email" id="email" required>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<textarea name="" class="form-control" id="" cols="30" rows="7" placeholder="Mensaje" id="message" required></textarea>
+								</div>
+							</div>
+							<div class="col-md-12" style="margin-bottom: 2rem;">
+								<div class="g-recaptcha" data-sitekey="6Lf4nHMqAAAAABRE2K8icmijS922FgiE1VC54itC"></div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="submit" value="Enviar Mensaje" class="btn btn-primary btn-modify">
+								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Email">
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group">
-								<textarea name="" class="form-control" id="" cols="30" rows="7" placeholder="Mensaje"></textarea>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group">
-								<input type="submit" value="Enviar Mensaje" class="btn btn-primary btn-modify">
-							</div>
-						</div>
-					</div>
+					</form>	
 				</div>
 			</div>
 		</div>
@@ -199,7 +216,11 @@
 		</footer>
 	</div><!-- END container-wrap -->
 	</div>
-
+	<div class="wapp-wrapper">
+		<a href="https://wa.me/1234567890" class="wapp" title="WhatsApp link" target="_blank" rel="noopener noreferrer">
+			<i class="icon-whatsapp"></i>
+		</a>
+	</div>
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
 	</div>
@@ -221,6 +242,41 @@
 	<script src="js/jquery.countTo.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
+
+	<script>
+			document.addEventListener('DOMContentLoaded', function() {
+	document.getElementById('contact-form').addEventListener('submit', function(event) {
+		event.preventDefault();
+
+		const name = document.getElementById('name').value;
+		const email = document.getElementById('email').value;
+		const message = document.getElementById('message').value;
+		const recaptchaResponse = grecaptcha.getResponse();
+
+		if (!recaptchaResponse) {
+		alert('Por favor, completa el reCAPTCHA.');
+		return;
+		}
+
+		emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+		from_name: name,
+		from_email: email,
+		message: message,
+		'g-recaptcha-response': recaptchaResponse
+		})
+		.then(response => {
+		alert("Mensaje enviado exitosamente.");
+		document.getElementById('contact-form').reset();
+		})
+		.catch(error => {
+		alert("Hubo un error al enviar el mensaje.");
+		console.error('Error:', error);
+		});
+	});
+});
+
+	
+		</script>
 
 	</body>
 </html>
