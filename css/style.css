@@ -1103,23 +1103,39 @@ input[type="text"] {
 }
 
 .wapp{
-
+  position: absolute;
+  transform: translateY(-19%) translateX(-44%);
 }
 
-.wapp-wrapper{
- 
+
+.wapp-wrapper{ 
   padding: 4px;
     position: fixed;
-  bottom: 10%;
-  left: 18%;
+  top: 20%;
+  right: 18%;
   z-index: 999;
   opacity: 1;
+  width: 20px;
+  height: 20px;
   visibility: visible;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
   scale: 3;
+  background-color: white;
+  padding-inline: .9rem;
+  border-radius: 50%;
 }
+
+@media screen and (max-width: 1250px) {
+  .wapp-wrapper {
+    right: 8%;
+    top: 25%;
+  }
+  
+}
+
+
 
 .gototop {
   position: fixed;

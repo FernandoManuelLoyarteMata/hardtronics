@@ -25,10 +25,11 @@
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
 		
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+		
 		<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
 		<script>
 			(function(){
-				emailjs.init("YOUR_USER_ID"); // Reemplaza YOUR_USER_ID con tu User ID de EmailJS
+				emailjs.init("Aw6mKagG4tihK6aj3"); // Reemplaza YOUR_USER_ID con tu User ID de EmailJS
 			})();
 		</script>
 		
@@ -253,15 +254,26 @@
 		const message = document.getElementById('message').value;
 		const recaptchaResponse = grecaptcha.getResponse();
 
+		 // Expresión regular para validar el correo electrónico
+		 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+		// Verificar si el correo es válido
+		if (!emailRegex.test(email)) {
+			alert('Por favor, ingresa un correo electrónico válido.');
+			return;
+		}
+
+
 		if (!recaptchaResponse) {
 		alert('Por favor, completa el reCAPTCHA.');
 		return;
 		}
 
-		emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+		emailjs.send("service_mmyimgb", "template_7u575af", {
 		from_name: name,
 		from_email: email,
 		message: message,
+		reply_to: email,
 		'g-recaptcha-response': recaptchaResponse
 		})
 		.then(response => {
