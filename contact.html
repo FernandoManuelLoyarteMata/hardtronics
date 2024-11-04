@@ -252,7 +252,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log("DOM completamente cargado y parseado.");
 
-            document.getElementById('contact-form').addEventListener('submit', function(event) {
+			const contactForm = document.getElementById('contact-form');
+			const submitButton = contactForm.querySelector('input[type="submit"]');
+
+            contactForm.addEventListener('submit', function(event) {
                 event.preventDefault();
                 console.log("Formulario enviado.");
 
@@ -276,6 +279,9 @@
                     return;
                 }
 
+				submitButton.disabled = true;
+				submitButton.value = "Enviando...";
+
                 console.log("Todos los campos son válidos, enviando el correo...");
 
                 emailjs.send("service_mmyimgb", "template_7u575af", {
@@ -288,14 +294,18 @@
                 .then(response => {
                     console.log("Respuesta de EmailJS:", response);
                     alert("Mensaje enviado exitosamente.");
-                    document.getElementById('contact-form').reset();
+                    contactForm.reset();
                     grecaptcha.reset(); // Resetea el reCAPTCHA después del envío
                 })
                 .catch(error => {
                     console.error('Error al enviar el correo:', error);
                     alert("Hubo un error al enviar el mensaje.");
 					console.error('Error completo:', error);
-                });
+                })
+				.finally(() => {
+                submitButton.disabled = false;
+                submitButton.value = "Enviar Mensaje";
+           		});;
             });
         });
     </script>
