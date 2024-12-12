@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://hardtronics.com.ar/sitemap.xml
