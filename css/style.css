@@ -179,6 +179,12 @@ h1, h2, h3, h4, h5, h6, figure {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
+
+/* Evitar subrayado en enlaces dentro de .dropdown */
+.fh5co-nav ul li.has-dropdown .dropdown li a:after {
+  content: none;
+}
+
 .fh5co-nav ul li.has-dropdown {
   position: relative;
 }
@@ -244,7 +250,7 @@ h1, h2, h3, h4, h5, h6, figure {
   color: #fff;
 }
 .fh5co-nav ul li.btn-cta a span {
-  background: #d36666;
+  background: #66d368;
   padding: 4px 10px;
   display: -moz-inline-stack;
   display: inline-block;
